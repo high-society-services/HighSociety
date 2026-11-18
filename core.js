@@ -1,5 +1,7 @@
 /* Pure shop logic: no DOM access, so it can be unit-tested in Node. */
 
+export const MAX_QTY = 20;
+
 /* ---------------------------- Prices ---------------------------- */
 
 /** Convert a price written in pounds (e.g. 49.5) to whole pence. */
@@ -18,65 +20,139 @@ export function createPriceFormatter({ code = 'GBP', locale = 'en-GB' } = {}) {
   return (pence) => fmt.format(pence / 100);
 }
 
-/* --------------------------- Catalogue -------------------------- */
+/* --------------------------- Options --------------------------- */
 
-/**
- * Validate and normalise products from the config. Bad entries are skipped
- * (with a console warning) rather than breaking the whole shop.
- */
-export function normaliseProducts(products, availability, warn = () => {}) {
-  const seen = new Set();
-  const out = [];
-  for (const [i, p] of (products || []).entries()) {
-    const where = `products[${i}]${p && p.name ? ` (“${p.name}”)` : ''}`;
-    if (!p || typeof p !== 'object') { warn(`${where}: not a product object`); continue; }
-    if (!p.id || typeof p.id !== 'string') { warn(`${where}: missing id`); continue; }
-    if (seen.has(p.id)) { warn(`${where}: duplicate id "${p.id}"`); continue; }
-    const pricePence = toPence(p.price);
-    if (!Number.isFinite(pricePence) || pricePence < 0) { warn(`${where}: invalid price`); continue; }
-    let availabilityKey = p.availability;
-    if (!availability[availabilityKey]) {
-      warn(`${where}: unknown availability "${availabilityKey}" — treated as not purchasable`);
-      availabilityKey = null;
-    }
-    const options = (Array.isArray(p.options) ? p.options : [])
-      .filter((o) => o && o.name && Array.isArray(o.values) && o.values.length > 0)
-      .map((o) => ({ name: String(o.name), values: o.values.map(String) }));
-    seen.add(p.id);
-    out.push({
-      id: p.id,
-      name: String(p.name || 'Untitled product'),
-      description: String(p.description || ''),
-      pricePence,
-      availabilityKey,
-      image: p.image ? String(p.image) : '',
-      imageAlt: String(p.imageAlt || p.name || ''),
-      options,
-    });
-  }
-  return out;
-}
-
-export function availabilityOf(product, availability) {
-  const a = product.availabilityKey && availability[product.availabilityKey];
-  if (!a) return { label: 'Unavailable', purchasable: false, tone: 'muted' };
-  return { label: String(a.label), purchasable: a.purchasable !== false, tone: a.tone || 'good' };
-}
-
-/* ------------------------------ Cart ----------------------------- */
-
-export const MAX_QTY = 20;
-
-/** Stable key for a product + chosen options, so identical choices merge. */
+/** Stable key for a set of chosen options, so identical choices merge. */
 export function lineKey(productId, options = {}) {
   const parts = Object.keys(options).sort().map((k) => `${k}=${options[k]}`);
   return [productId, ...parts].join('|');
 }
 
-/** Check that every option the product has was chosen with a valid value. */
+/** Option names the customer has not yet chosen a valid value for. */
 export function missingOptions(product, chosen = {}) {
   return product.options.filter((o) => !o.values.includes(chosen[o.name])).map((o) => o.name);
 }
+
+/** The variant (price and stock) for the chosen options, or null if none is listed. */
+export function findVariant(product, chosen = {}) {
+  if (missingOptions(product, chosen).length) return null;
+  return (
+    product.variants.find((v) => product.options.every((o) => v.options[o.name] === chosen[o.name])) || null
+  );
+}
+
+/* ---------------------------- Catalogue ---------------------------- */
+
+function makeVariant(raw, options, groups, where, warn) {
+  for (const g of groups) {
+    if (!g.values.includes(options[g.name])) {
+      warn(`${where}: variant has no valid "${g.name}" value — skipped`);
+      return null;
+    }
+  }
+  const pricePence = toPence(raw.price);
+  if (!Number.isFinite(pricePence) || pricePence < 0) {
+    warn(`${where}: variant has an invalid price — skipped`);
+    return null;
+  }
+  let stock = Number(raw.stock);
+  if (!Number.isInteger(stock) || stock < 0) {
+    warn(`${where}: variant has no valid stock number — treated as out of stock (0)`);
+    stock = 0;
+  }
+  return { key: lineKey('', options), options: { ...options }, pricePence, stock };
+}
+
+/**
+ * Validate and normalise products from the config. Bad entries are skipped
+ * (with a console warning) rather than breaking the whole shop.
+ */
+export function normaliseProducts(products, warn = () => {}) {
+  const seen = new Set();
+  const out = [];
+  for (const [i, p] of (products || []).entries()) {
+    const where = `products[${i}]${p && p.name ? ` (“${p.name}”)` : ''}`;
+    if (!p || typeof p !== 'object') { warn(`${where}: not a product object`); continue; }
+    if (!p.id || typeof p.id !== 'string' || /\s/.test(p.id)) { warn(`${where}: missing or invalid id`); continue; }
+    if (seen.has(p.id)) { warn(`${where}: duplicate id "${p.id}"`); continue; }
+
+    const options = (Array.isArray(p.options) ? p.options : [])
+      .filter((o) => o && o.name && Array.isArray(o.values) && o.values.length > 0)
+      .map((o) => ({ name: String(o.name), values: o.values.map(String) }));
+
+    let variants = [];
+    if (options.length === 0) {
+      const v = makeVariant({ price: p.price, stock: p.stock }, {}, [], where, warn);
+      if (!v) continue;
+      variants = [v];
+    } else {
+      for (const raw of Array.isArray(p.variants) ? p.variants : []) {
+        if (!raw || typeof raw !== 'object') continue;
+        const v = makeVariant(raw, raw.options || {}, options, where, warn);
+        if (!v) continue;
+        if (variants.some((x) => x.key === v.key)) { warn(`${where}: duplicate variant ${v.key} — skipped`); continue; }
+        variants.push(v);
+      }
+      if (!variants.length) { warn(`${where}: no valid variants — skipped`); continue; }
+    }
+    variants.forEach((v) => (v.key = lineKey('', v.options)));
+
+    seen.add(p.id);
+    const list = (x) => (Array.isArray(x) ? x : []).map((s) => String(s).trim()).filter(Boolean);
+    out.push({
+      id: p.id,
+      name: String(p.name || 'Untitled product'),
+      description: String(p.description || ''),
+      categories: list(p.categories),
+      tags: list(p.tags),
+      image: p.image ? String(p.image) : '',
+      imageAlt: String(p.imageAlt || p.name || ''),
+      options,
+      variants,
+      fromPence: Math.min(...variants.map((v) => v.pricePence)),
+      inStock: variants.some((v) => v.stock > 0),
+    });
+  }
+  return out;
+}
+
+/** Distinct categories and tags across the catalogue, sorted for the filter controls. */
+export function collectFacets(products) {
+  const cats = new Set();
+  const tags = new Set();
+  products.forEach((p) => {
+    p.categories.forEach((c) => cats.add(c));
+    p.tags.forEach((t) => tags.add(t));
+  });
+  const sort = (set) => [...set].sort((a, b) => a.localeCompare(b, 'en-GB'));
+  return { categories: sort(cats), tags: sort(tags) };
+}
+
+/**
+ * Filter the catalogue. Every word typed in the search must appear in the
+ * name, description, categories or tags. Any selected tag matches.
+ */
+export function filterProducts(products, f = {}) {
+  const words = String(f.query || '').toLowerCase().split(/\s+/).filter(Boolean);
+  return products.filter((p) => {
+    if (words.length) {
+      const hay = [p.name, p.description, ...p.categories, ...p.tags].join(' ').toLowerCase();
+      if (!words.every((w) => hay.includes(w))) return false;
+    }
+    if (f.availability === 'in' && !p.inStock) return false;
+    if (f.availability === 'out' && p.inStock) return false;
+    if (f.band) {
+      const from = p.fromPence / 100;
+      if (from < f.band.min) return false;
+      if (f.band.max != null && from >= f.band.max) return false;
+    }
+    if (f.category && !p.categories.includes(f.category)) return false;
+    if (f.tags && f.tags.length && !p.tags.some((t) => f.tags.includes(t))) return false;
+    return true;
+  });
+}
+
+/* ------------------------------ Cart ----------------------------- */
 
 /** Returns a new cart (array of {productId, options, qty}) with the item added. */
 export function addToCart(cart, productId, options, qty = 1) {
@@ -114,7 +190,7 @@ export function sanitiseCart(raw, products) {
     for (const o of product.options) {
       if (l.options && o.values.includes(l.options[o.name])) options[o.name] = l.options[o.name];
     }
-    if (missingOptions(product, options).length) continue;
+    if (!findVariant(product, options)) continue;
     const qty = Math.floor(Number(l.qty));
     if (!Number.isFinite(qty) || qty < 1) continue;
     cart = addToCart(cart, product.id, options, Math.min(qty, MAX_QTY));
@@ -122,23 +198,36 @@ export function sanitiseCart(raw, products) {
   return cart;
 }
 
-/** Join cart lines with their products for display and totals. */
-export function resolveCart(cart, products, availability) {
+/**
+ * Enquiry check for one cart line. Out-of-stock (0) and quantities above
+ * the listed stock are never blocked; they are marked as enquiries.
+ */
+export function enquiryReason(variant, qty) {
+  if (variant.stock === 0) return 'out';
+  if (qty > variant.stock) return 'over';
+  return null;
+}
+
+/** Join cart lines with their products and current prices for display and totals. */
+export function resolveCart(cart, products) {
   const byId = new Map(products.map((p) => [p.id, p]));
   const lines = cart
     .map((l) => {
       const product = byId.get(l.productId);
       if (!product) return null;
-      const avail = availabilityOf(product, availability);
+      const variant = findVariant(product, l.options);
+      if (!variant) return null;
+      const reason = enquiryReason(variant, l.qty);
       return {
         key: lineKey(l.productId, l.options),
         product,
         options: l.options,
         qty: l.qty,
-        unitPence: product.pricePence,
-        totalPence: product.pricePence * l.qty,
-        purchasable: avail.purchasable,
-        availabilityLabel: avail.label,
+        stock: variant.stock,
+        unitPence: variant.pricePence,
+        totalPence: variant.pricePence * l.qty,
+        enquiry: reason !== null,
+        enquiryReason: reason,
       };
     })
     .filter(Boolean);
@@ -146,7 +235,7 @@ export function resolveCart(cart, products, availability) {
     lines,
     count: lines.reduce((n, l) => n + l.qty, 0),
     totalPence: lines.reduce((n, l) => n + l.totalPence, 0),
-    hasUnavailable: lines.some((l) => !l.purchasable),
+    hasEnquiry: lines.some((l) => l.enquiry),
   };
 }
 
@@ -186,6 +275,21 @@ export function validateName(input) {
   return { ok: true, value };
 }
 
+export function validateQuantity(input) {
+  const n = Number(String(input ?? '').trim());
+  if (!Number.isInteger(n) || n < 1 || n > MAX_QTY) {
+    return { ok: false, error: `Please enter a whole number from 1 to ${MAX_QTY}.` };
+  }
+  return { ok: true, value: n };
+}
+
+export function validateDescription(input) {
+  const value = String(input || '').trim();
+  if (!value) return { ok: false, error: 'Please tell us what you’d like us to source.' };
+  if (value.length > 1000) return { ok: false, error: 'Please keep your description under 1,000 characters.' };
+  return { ok: true, value };
+}
+
 /* ------------------------ Messaging links ------------------------ */
 
 /** WhatsApp needs digits only, in international format without "+" or a leading 0. */
@@ -211,24 +315,64 @@ export function telegramLink(username, text) {
   return u ? `https://t.me/${u}?text=${encodeURIComponent(text)}` : '';
 }
 
+/** Plain profile links (no prefilled text) for the footer contact list. */
+export function whatsappProfileLink(number) {
+  const n = cleanWhatsAppNumber(number);
+  return n ? `https://wa.me/${n}` : '';
+}
+
+export function telegramProfileLink(username) {
+  const u = cleanTelegramUsername(username);
+  return u ? `https://t.me/${u}` : '';
+}
+
+/** Only web addresses are allowed, so a mistyped entry can't become a script link. */
+export function safeWebUrl(raw) {
+  const s = String(raw || '').trim();
+  return /^https:\/\/[^\s]+$/i.test(s) ? s : '';
+}
+
+/* ------------------------- Message text ------------------------- */
+
 /** Build the plain-text order message the customer sends. */
-export function buildOrderMessage({ shopName, greeting, footer, customer, resolved, formatPrice }) {
+export function buildOrderMessage({ shopName, greeting, footer, labels = {}, customer, resolved, formatPrice }) {
   const fill = (s) => String(s || '').replaceAll('{shop}', shopName);
+  const L = { name: 'Name', postcode: 'Postcode', order: 'ORDER', subtotal: 'Subtotal', enquiry: 'ENQUIRY', ...labels };
   const lines = [];
   lines.push(fill(greeting));
   lines.push('');
-  lines.push(`Name: ${customer.name}`);
-  lines.push(`Postcode: ${customer.postcode}`);
+  lines.push(`${L.name}: ${customer.name}`);
+  lines.push(`${L.postcode}: ${customer.postcode}`);
   lines.push('');
-  lines.push('ORDER');
+  lines.push(L.order);
   resolved.lines.forEach((l, i) => {
     lines.push(`${i + 1}. ${l.product.name}`);
     const opts = describeOptions(l.options);
     if (opts) lines.push(`   ${opts}`);
     lines.push(`   Qty ${l.qty} × ${formatPrice(l.unitPence)} = ${formatPrice(l.totalPence)}`);
+    if (l.enquiry) lines.push(`   ${L.enquiry}`);
   });
   lines.push('');
-  lines.push(`Order total: ${formatPrice(resolved.totalPence)}`);
+  lines.push(`${L.subtotal}: ${formatPrice(resolved.totalPence)}`);
+  if (footer) {
+    lines.push('');
+    lines.push(fill(footer));
+  }
+  return lines.join('\n');
+}
+
+/** Build the plain-text sourcing request the customer sends. */
+export function buildRequestMessage({ shopName, greeting, footer, labels = {}, customer, description }) {
+  const fill = (s) => String(s || '').replaceAll('{shop}', shopName);
+  const L = { name: 'Name', postcode: 'Postcode', request: 'Request', ...labels };
+  const lines = [];
+  lines.push(fill(greeting));
+  lines.push('');
+  lines.push(`${L.name}: ${customer.name}`);
+  lines.push(`${L.postcode}: ${customer.postcode}`);
+  lines.push('');
+  lines.push(`${L.request}:`);
+  lines.push(description);
   if (footer) {
     lines.push('');
     lines.push(fill(footer));

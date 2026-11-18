@@ -19,6 +19,7 @@
         <a class="brand" href="#top" id="brand" data-shop-name>High Society</a>
         <nav class="site-nav" aria-label="Main">
           <a href="#shop">Shop</a>
+          <a href="#request">Request</a>
           <a href="#about">About</a>
         </nav>
         <button type="button" class="cart-button" id="cart-button" aria-haspopup="dialog" aria-controls="cart-dialog">
@@ -45,6 +46,10 @@
       <section class="section" id="shop" aria-labelledby="shop-title" tabindex="-1">
         <div class="container">
           <h2 class="section-title" id="shop-title">The Collection</h2>
+
+          <!-- Search and filters are built from shopConfig.js by app.js -->
+          <div class="filters" id="filters" role="search" aria-label="Search and filter products"></div>
+
           <p class="catalogue-status" id="catalogue-status" role="status">Loading products…</p>
           <ul class="product-grid" id="product-grid" aria-busy="true">
             <li class="card card--skeleton" aria-hidden="true"><div class="card-media"></div><div class="card-body"><span></span><span></span></div></li>
@@ -55,10 +60,25 @@
         </div>
       </section>
 
+      <section class="section section--request" id="request" aria-labelledby="request-title" tabindex="-1">
+        <div class="container request-inner">
+          <h2 class="section-title" id="request-title">Request Services</h2>
+          <!-- Request form is built from shopConfig.js by app.js -->
+          <div id="request-body" class="request-body"></div>
+        </div>
+      </section>
+
       <section class="section section--about" id="about" aria-labelledby="about-title" tabindex="-1">
         <div class="container about-inner">
           <h2 class="section-title" id="about-title">About</h2>
           <div id="about-text" class="about-text"></div>
+        </div>
+      </section>
+
+      <section class="section section--faq" id="faq" aria-labelledby="faq-title">
+        <div class="container faq-inner">
+          <h2 class="section-title" id="faq-title">Frequently asked questions</h2>
+          <div id="faq-list" class="faq-list"></div>
         </div>
       </section>
     </main>
@@ -69,6 +89,7 @@
         <p class="footer-name" data-shop-name>High Society</p>
         <p class="footer-tagline" id="footer-tagline"></p>
         <p class="footer-note" id="footer-note"></p>
+        <div class="footer-links" id="footer-links"></div>
         <p class="footer-copy">© <span id="footer-year"></span> <span data-shop-name>High Society</span></p>
       </div>
     </footer>
