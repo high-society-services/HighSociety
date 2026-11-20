@@ -38,11 +38,8 @@ export const shopConfig = {
    * HOME SECTION
    * ------------------------------------------------------------------ */
   home: {
-    intro:
-      'Hand-picked luxury, sourced for you. Browse the collection, or message us for anything you can’t see here.',
     browseButton: 'Browse the collection',
     collectionHeading: 'The Collection',
-    footerNote: 'Orders are placed by message on WhatsApp or Telegram.',
   },
 
   /* ------------------------------------------------------------------
@@ -53,9 +50,10 @@ export const shopConfig = {
     heading: 'About High Society',
     // PLACEHOLDER TEXT — replace each paragraph with your own wording.
     paragraphs: [
-      'UK private concierge and personal shopping service.',
-      'Available 24/7 with dedicated one on one support to fulfil your requests.',
-      'We always operate with absolute discretion, providing personalised solutions quickly and with care.',
+      'Welcome to High Society, an elite UK private concierge and personal shopping service.',
+      'We take pride in providing only premium, authentic goods, and operating with absolute discretion and confidentiality.',
+      'With dedicated 24/7 assistance, we provide personalised solutions that work for you.',
+      'Every request is handled with care, securely and without delay.',
     ],
   },
 

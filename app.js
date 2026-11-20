@@ -180,8 +180,6 @@ function renderBranding() {
     hero.querySelector('img').addEventListener('error', heroText, { once: true });
   } else heroText();
 
-  $('#hero-intro').textContent = config.home?.intro || '';
-  $('#hero-cta').textContent = config.home?.browseButton || 'Browse';
   $('#shop-title').textContent = config.home?.collectionHeading || 'Shop';
 
   $('#request-title').textContent = request.heading || 'Request';
@@ -191,7 +189,6 @@ function renderBranding() {
   $('#faq-title').textContent = config.faq?.heading || 'Frequently asked questions';
 
   $('#footer-tagline').textContent = tagline;
-  $('#footer-note').textContent = config.home?.footerNote || '';
   $('#footer-year').textContent = String(new Date().getFullYear());
 }
 
