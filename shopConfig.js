@@ -47,7 +47,7 @@ export const shopConfig = {
    * TODO: replace the placeholder About text with your own.
    * ------------------------------------------------------------------ */
   about: {
-    heading: 'About High Society',
+    heading: 'About',
     // PLACEHOLDER TEXT — replace each paragraph with your own wording.
     paragraphs: [
       'Welcome to High Society, an elite UK private concierge and personal shopping service.',
