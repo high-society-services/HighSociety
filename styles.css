@@ -516,11 +516,3 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.72); backdrop-filter: blur(3px); 
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
-
-/* Crisp gold hero wordmark (used instead of the low-resolution hero image). */
-.wordmark--hero {
-  font-family: var(--serif); font-weight: 700; letter-spacing: -0.01em;
-  background: linear-gradient(180deg, #fff3c4 0%, #e2c06a 38%, #c99b3f 62%, #7a5414 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 3px 0 #3d2806) drop-shadow(0 0 22px rgba(226, 192, 106, 0.35));
-}
