@@ -80,7 +80,7 @@ export const shopConfig = {
       {
         question: 'How do I place an order?',
         answer:
-          'If you need assistance ordering, please contact us and we will assist you.',
+          'Please contact us and we will help you.',
       },
     ],
   },
