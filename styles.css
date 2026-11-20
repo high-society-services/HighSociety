@@ -250,14 +250,13 @@ p { margin: 0 0 0.75em; }
 
 /* --------------------------- About + footer --------------------------- */
 .section--about { padding-top: 12px; }
-.about-inner { max-width: 1040px; text-align: center; }
-.about-text p { margin-bottom: 0.9em; }
+.about-inner { max-width: 1120px; text-align: center; }
+.about-text p { margin: 0; padding: 14px 0; }
 @media (min-width: 900px) { .about-text p { white-space: nowrap; } }
 .about-text {
-  color: var(--muted); font-size: 1.02rem; padding: 26px 22px; border-radius: 14px;
+  color: var(--muted); font-size: 0.9rem; padding: 14px 22px; border-radius: 14px;
   border: 1px solid rgba(217, 180, 90, 0.55); background: transparent;
 }
-.about-text p:last-child { margin-bottom: 0; }
 
 .site-footer { padding: 8px 0 calc(36px + env(safe-area-inset-bottom)); text-align: center; color: var(--muted); font-size: 0.85rem; }
 .footer-name { font-size: 1.6rem; margin: 0 0 4px; }
