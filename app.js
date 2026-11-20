@@ -176,7 +176,7 @@ function renderBranding() {
   };
   if (config.shop?.logo?.hero) {
     const alt = tagline ? `${shopName} — ${tagline}` : shopName;
-    hero.innerHTML = `<img class="hero-logo" src="${esc(config.shop.logo.hero)}" alt="${esc(alt)}" width="900" height="594" fetchpriority="high">`;
+    hero.innerHTML = `<img class="hero-logo" src="${esc(config.shop.logo.hero)}" alt="${esc(alt)}" width="1079" height="729" fetchpriority="high">`;
     hero.querySelector('img').addEventListener('error', heroText, { once: true });
   } else heroText();
 
