@@ -53,8 +53,9 @@ export const shopConfig = {
     heading: 'About High Society',
     // PLACEHOLDER TEXT — replace each paragraph with your own wording.
     paragraphs: [
-      '[Placeholder] High Society is a personal shopping service for people who want the best without the search. Tell us what you’re after and we’ll find it, check it and get it to you.',
-      '[Placeholder] Everything in our collection is selected by hand. If you’re looking for something you can’t see here, send us a message — sourcing on request is what we do.',
+      'UK private concierge and personal shopping service.',
+      'Available 24/7 with dedicated one on one support to fulfil your requests.',
+      'We always operate with absolute discretion, providing personalised solutions quickly and with care.',
     ],
   },
 
@@ -67,16 +68,19 @@ export const shopConfig = {
     heading: 'Frequently asked questions',
     items: [
       {
-        question: '[Placeholder] FAQ question 1 — exact wording needed',
-        answer: '[Placeholder] FAQ answer 1 — exact wording needed.',
+        question: 'What payment methods do you accept?',
+        answer:
+          'We accept almost all payment methods, and work flexibly with our customers to suit their needs. Please contact us and let us know how you would like to pay.',
       },
       {
-        question: '[Placeholder] FAQ question 2 — exact wording needed',
-        answer: '[Placeholder] FAQ answer 2 — exact wording needed.',
+        question: 'What delivery services do you offer?',
+        answer:
+          'You choose which delivery provider or service you would like to use, and we will facilitate the process for you. Please contact us if you would like to discuss delivery options.',
       },
       {
-        question: '[Placeholder] FAQ question 3 — exact wording needed',
-        answer: '[Placeholder] FAQ answer 3 — exact wording needed.',
+        question: 'How do I place an order?',
+        answer:
+          'If you need assistance ordering, please contact us and we will assist you.',
       },
     ],
   },

@@ -202,13 +202,25 @@ function renderFaq() {
   $('#faq').hidden = !items.length;
   els.faqList.innerHTML = items
     .map(
-      (it) => `<details class="faq-item">
-        <summary>${esc(it.question)}</summary>
-        <div class="faq-answer"><p>${esc(it.answer)}</p></div>
-      </details>`,
+      (it, i) => `<div class="faq-item">
+        <button type="button" class="faq-q" id="faq-q-${i}" aria-expanded="false" aria-controls="faq-a-${i}">
+          <span>${esc(it.question)}</span><span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-panel" id="faq-a-${i}" role="region" aria-labelledby="faq-q-${i}">
+          <div class="faq-answer"><p>${esc(it.answer)}</p></div>
+        </div>
+      </div>`,
     )
     .join('');
 }
+
+els.faqList.addEventListener('click', (e) => {
+  const btn = e.target.closest('.faq-q');
+  if (!btn) return;
+  const item = btn.closest('.faq-item');
+  const open = item.classList.toggle('is-open');
+  btn.setAttribute('aria-expanded', String(open));
+});
 
 /** Footer links: WhatsApp and Telegram profiles plus any social URLs. Unconfigured entries are hidden. */
 function renderFooterLinks() {
