@@ -254,7 +254,7 @@ p { margin: 0 0 0.75em; }
 .about-text p { margin: 0; padding: 14px 0; }
 @media (min-width: 900px) { .about-text p { white-space: nowrap; } }
 .about-text {
-  color: var(--muted); font-size: 0.9rem; padding: 14px 22px; border-radius: 14px;
+  color: var(--muted); font-size: 0.85rem; padding: 14px 22px; border-radius: 14px;
   border: 1px solid rgba(217, 180, 90, 0.55); background: transparent;
 }
 
