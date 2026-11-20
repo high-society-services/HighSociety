@@ -30,7 +30,7 @@ export const shopConfig = {
     // Set either to '' to fall back to a styled text wordmark.
     logo: {
       header: 'logo-wordmark.webp', // compact logo in the top bar
-      hero: 'logo-full.webp', // large logo with tagline on the home section
+      hero: 'logo-hero.webp', // large logo with tagline on the home section
     },
   },
 
