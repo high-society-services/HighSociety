@@ -78,7 +78,7 @@ export const shopConfig = {
       {
         question: 'How do I place an order?',
         answer:
-          'Please contact us and we will help you.',
+          'If you are a new customer or are having trouble ordering, please contact us and we will assist you.',
       },
     ],
   },
@@ -161,28 +161,26 @@ export const shopConfig = {
    *                 (Telegram → Settings → Username.) Example format: highsociety
    * ------------------------------------------------------------------ */
   contact: {
-    whatsappNumber: '', // TODO: add WhatsApp number
-    telegramUsername: '', // TODO: add Telegram username
+    whatsappNumber: '', 447441476761
+    telegramUsername: '', roman_highsociety
   },
 
   /* ------------------------------------------------------------------
    * CHECKOUT WORDING
    * ------------------------------------------------------------------ */
   checkout: {
-    cartNote: 'Delivery and payment are arranged with us by message after you send your order.',
+    cartNote: 'Your order will be processed once it`s been placed and we`ve confirmed it with you.',
     detailsIntro:
-      'We only need your name and postcode. You’ll send your order to us yourself in WhatsApp or Telegram, and we’ll reply there to confirm availability, delivery and payment.',
+      'We only need your name and postcode for now.',
     messagingIntro:
       'Choose how to send your order. This opens WhatsApp or Telegram (app or website) with your order message already written. Your order is not placed until you press Send in that app.',
-    notConfigured:
-      'Ordering by message isn’t set up yet — our contact details are still being added. Please check back soon.',
     afterOpen:
       'Your order message should now be open in {app}. Nothing has been sent yet — check the message and press Send in {app} to place your order. We’ll reply there to confirm.',
-    thanks: 'Thanks for sending your order. We’ll reply in {app} to confirm availability, delivery and payment.',
+    thanks: 'Thanks for sending your order. We’ll reply in {app} to confirm delivery and payment.',
 
     // The order message the customer sends. {shop} is replaced with the shop name.
-    messageGreeting: 'Hello {shop}, I’d like to place an order.',
-    messageFooter: 'Payment and delivery will be confirmed in chat. Thank you!',
+    messageGreeting: 'I’d like to place an order.',
+    messageFooter: 'Payment and delivery will be confirmed in chat. Thank you',
     // Labels used inside the order message.
     messageLabels: {
       name: 'Name',
@@ -201,20 +199,20 @@ export const shopConfig = {
   request: {
     heading: 'Request Services',
     intro:
-      'Looking for something you can’t see here? Tell us what you’d like sourced and we’ll reply in chat.',
-    nameLabel: 'Your name',
+      'Tell us what you need, and we’ll get back to you as soon as possible.',
+    nameLabel: 'Your Name',
     postcodeLabel: 'UK postcode',
     postcodeHint: 'For example, SW1A 1AA',
-    descriptionLabel: 'What would you like us to source?',
-    descriptionHint: 'Describe the item, brand, size, colour or budget.',
+    descriptionLabel: 'What is your request?',
+    descriptionHint: 'Describe the what you need.',
     submit: 'Continue',
     sendIntro:
       'Choose how to send your request. This opens WhatsApp or Telegram with your message already written. Nothing is sent until you press Send in that app.',
     afterOpen:
       'Your request should now be open in {app}. Nothing has been sent yet — press Send in {app} to send it. We’ll reply there.',
     // {shop} is replaced with the shop name.
-    messageGreeting: 'Hello {shop}, I’d like to request a sourcing service.',
-    messageFooter: 'Thank you!',
+    messageGreeting: 'Hello {shop}, I’d like to request a service.',
+    messageFooter: 'Thank you.',
     messageLabels: {
       name: 'Name',
       postcode: 'Postcode',
@@ -250,91 +248,113 @@ export const shopConfig = {
    * ------------------------------------------------------------------ */
   products: [
     {
-      id: 'sample-leather-tote',
-      name: 'Signature Leather Tote',
+      id: 'c',
+      name: 'C',
       description:
-        '[Sample] Full-grain leather tote with a structured base, suede lining and an inner zip pocket. Roomy enough for a laptop and the day’s essentials.',
-      image: 'tote.svg',
-      imageAlt: 'Signature Leather Tote (sample image)',
-      categories: ['Bags'],
-      tags: ['leather', 'everyday'],
-      options: [{ name: 'Colour', values: ['Black', 'Tan', 'Burgundy'] }],
+        'Pure fishscale double wash, Columbian import.',
+      'Larger sizes are available upon request, prices may vary depending on stock', 
+      image: 'Polish_20261119_223424260',
+      imageAlt: 'c image',
+      categories: ['Unprocessed'],
+      tags: ['white', 'powder', 'stimulant', 'party'],
+      options: [{ name: 'Size', values: ['0.5g', '1g', '1.5g', '3.5g', '7g', '14g', '28g'] }],
       variants: [
-        { options: { Colour: 'Black' }, price: 245, stock: 3 },
-        { options: { Colour: 'Tan' }, price: 245, stock: 0 },
-        { options: { Colour: 'Burgundy' }, price: 255, stock: 2 },
+        { options: { Size: '0.5g' }, price: 40 , stock: 3 },
+        { options: { Size: '1g' }, price: 70, stock: 3 },
+        { options: { Size: '1.5g' }, price: 100, stock: 0 },
+        { options: { Size: '3.5g' }, price: 200, stock: 2 },
+         { options: { Size: '7g' }, price: 350, stock: 3 },
+        { options: { Size: '14g' }, price: 600, stock: 0 },
+        { options: { Size: '28g' }, price: 1100, stock: 2 },
       ],
     },
     {
-      id: 'sample-cashmere-jumper',
-      name: 'Cashmere Crew Jumper',
+      id: 'k',
+      name: 'K',
       description:
-        '[Sample] Pure cashmere crew neck in a relaxed fit. Soft, warm and light enough to layer.',
-      image: 'jumper.svg',
-      imageAlt: 'Cashmere Crew Jumper (sample image)',
-      categories: ['Clothing'],
-      tags: ['cashmere', 'knitwear'],
-      options: [{ name: 'Size', values: ['XS', 'S', 'M', 'L', 'XL'] }],
+        'High quality red label, Netherlands import.', 
+      'Larger sizes are available upon request, prices may vary depending on stock', 
+      image: 'Polish_20261119_223733844',
+      imageAlt: 'k image',
+      categories: ['Unprocessed'],
+      tags: ['unprocessed', 'white', 'powder', 'party' ],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
       variants: [
-        { options: { Size: 'XS' }, price: 189, stock: 0 },
-        { options: { Size: 'S' }, price: 189, stock: 1 },
-        { options: { Size: 'M' }, price: 189, stock: 4 },
-        { options: { Size: 'L' }, price: 189, stock: 2 },
-        { options: { Size: 'XL' }, price: 199, stock: 0 },
+        { options: { Size: '1g' }, price: 25, stock: 0 },
+        { options: { Size: '2g' }, price: 40, stock: 1 },
+        { options: { Size: '3.5g' }, price: 60, stock: 4 },
+        { options: { Size: '7g' }, price: 100, stock: 2 },
+        { options: { Size: '14g' }, price: 180, stock: 0 },
+        { options: { Size: '28g' }, price: 300, stock: 0 },
       ],
     },
     {
-      id: 'sample-gold-bracelet',
-      name: 'Gold Link Bracelet',
+      id: 'md',
+      name: 'MD',
       description:
-        '[Sample] 18ct gold-plated link bracelet with a secure lobster clasp. Presented in a gift box.',
-      image: 'bracelet.svg',
-      imageAlt: 'Gold Link Bracelet (sample image)',
-      categories: ['Jewellery'],
-      tags: ['gold', 'gift'],
-      options: [{ name: 'Length', values: ['17 cm', '19 cm', '21 cm'] }],
+        'Pure champagne, Netherlands import.',
+         'Larger sizes are available upon request, prices may vary depending on stock', 
+      image: 'Polish_20261119_225406908',
+      imageAlt: 'md image',
+      categories: ['Unprocessed'],
+      tags: ['unprocessed', 'stimulant', 'party'],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
       variants: [
-        { options: { Length: '17 cm' }, price: 120, stock: 4 },
-        { options: { Length: '19 cm' }, price: 120, stock: 2 },
-        { options: { Length: '21 cm' }, price: 120, stock: 0 },
+        { options: { Size: '1g' }, price: 30, stock: 0 },
+        { options: { Size: '2g' }, price: 50, stock: 1 },
+        { options: { Size: '3.5g' }, price: 70, stock: 4 },
+        { options: { Size: '7g' }, price: 120, stock: 2 },
+        { options: { Size: '14g' }, price: 200, stock: 0 },
+        { options: { Size: '28g' }, price: 360, stock: 0 },
       ],
     },
     {
-      id: 'sample-oud-parfum',
-      name: 'Oud Eau de Parfum',
+      id: 'pnk',
+      name: 'Pink',
       description:
-        '[Sample] A warm, long-lasting fragrance with notes of oud, amber and saffron.',
-      image: 'fragrance.svg',
-      imageAlt: 'Oud Eau de Parfum bottle (sample image)',
-      categories: ['Fragrance'],
-      tags: ['oud', 'long-lasting'],
-      options: [{ name: 'Size', values: ['50 ml', '100 ml'] }],
+        'Premium blend high quality Netherlands import.',
+     'Larger sizes are available upon request, prices may vary depending on stock', 
+      image: 'Polish_20261119_224011271',
+      imageAlt: 'pink image',
+      categories: ['Unprocessed'],
+      tags: ['powder', 'party', 'stimulant'],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
       variants: [
-        { options: { Size: '50 ml' }, price: 95, stock: 0 },
-        { options: { Size: '100 ml' }, price: 150, stock: 1 },
+        { options: { Size: '1g' }, price: 60, stock: 0 },
+        { options: { Size: '2g' }, price: 110, stock: 1 },
+        { options: { Size: '3.5g' }, price: 180, stock: 4 },
+        { options: { Size: '7g' }, price: 350, stock: 2 },
+        { options: { Size: '14g' }, price: 600, stock: 0 },
+        { options: { Size: '28g' }, price: 1100, stock: 0 },
       ],
     },
     {
-      id: 'sample-silk-square',
-      name: 'Silk Pocket Square',
-      description: '[Sample] Hand-rolled silk pocket square with a gold border print.',
-      image: 'square.svg',
-      imageAlt: 'Silk Pocket Square (sample image)',
-      categories: ['Accessories'],
-      tags: ['silk'],
-      price: 49.5,
-      stock: 6,
-      options: [],
+      id: 'xtc',
+      name: 'X',
+      description: 'High strength unadultarated Netherlands import.',
+      'Larger sizes are available upon request, prices may vary depending on stock',
+      image: 'Polish_20261119_225524078',
+      imageAlt: 'X image',
+      categories: ['Pills'],
+      tags: ['party', 'unprocessed', 'stimulant'],
+options: [{ name: 'Size', values: ['1', '2', '5', '10', '50', '100'] }],
+      variants: [
+        { options: { Size: '1' }, price: 10, stock: 0 },
+        { options: { Size: '2' }, price: 18, stock: 1 },
+        { options: { Size: '5' }, price: 40, stock: 4 },
+        { options: { Size: '10' }, price: 60, stock: 2 },
+        { options: { Size: '50' }, price: 300, stock: 0 },
+        { options: { Size: '100' }, price: 600, stock: 0 },
     },
     {
-      id: 'sample-card-holder',
-      name: 'Leather Card Holder',
+      id: 'wd',
+      name: 'Bud',
       description:
-        '[Sample] Slim card holder in pebbled leather with four card slots and a centre pocket.',
-      image: 'cardholder.svg',
-      imageAlt: 'Leather Card Holder (sample image)',
-      categories: ['Accessories', 'Leather goods'],
-      tags: ['leather'],
+        'High potency, California import',
+      image: 'Polish_20261119_225645496',
+      imageAlt: 'bud image',
+      categories: ['Plants'],
+      tags: ['Plants', 'cannabis', 'natural'],
       options: [{ name: 'Colour', values: ['Black', 'Navy'] }],
       variants: [
         { options: { Colour: 'Black' }, price: 65, stock: 0 },
