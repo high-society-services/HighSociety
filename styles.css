@@ -254,8 +254,8 @@ p { margin: 0 0 0.75em; }
 .about-text p { margin-bottom: 0.9em; }
 @media (min-width: 900px) { .about-text p { white-space: nowrap; } }
 .about-text {
-  color: var(--muted); font-size: 1.02rem; padding: 26px 22px; border-radius: var(--radius);
-  border: 1px solid var(--line); background: linear-gradient(180deg, rgba(29, 24, 17, 0.7), rgba(13, 11, 8, 0.7));
+  color: var(--muted); font-size: 1.02rem; padding: 26px 22px; border-radius: 14px;
+  border: 1px solid rgba(217, 180, 90, 0.55); background: transparent;
 }
 .about-text p:last-child { margin-bottom: 0; }
 
