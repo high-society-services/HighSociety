@@ -161,8 +161,8 @@ export const shopConfig = {
    *                 (Telegram → Settings → Username.) Example format: highsociety
    * ------------------------------------------------------------------ */
   contact: {
-    whatsappNumber: '', 447441476761
-    telegramUsername: '', roman_highsociety
+    whatsappNumber: '447441476761',
+    telegramUsername: 'roman_highsociety',
   },
 
   /* ------------------------------------------------------------------
