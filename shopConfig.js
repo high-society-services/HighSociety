@@ -393,9 +393,5 @@ options: [{ name: 'Size', values: ['1', '2', '5', '10', '50', '100'] }],
         { options: { Size: '56pills' }, price: 60, stock: 10 },
        ],
     },
-    {
-    
-      ],
-    },
   ],
 };
