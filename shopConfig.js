@@ -276,7 +276,7 @@ export const shopConfig = {
       imageAlt: 'k image',
       categories: ['Unprocessed'],
       tags: ['unprocessed', 'white', 'powder', 'party' ],
-      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28g'] }],
       variants: [
         { options: { Size: '1g' }, price: 25, stock: 8 },
         { options: { Size: '2g' }, price: 40, stock: 5 },
@@ -295,7 +295,7 @@ export const shopConfig = {
       imageAlt: 'md image',
       categories: ['Unprocessed'],
       tags: ['unprocessed', 'stimulant', 'party'],
-      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28g'] }],
       variants: [
         { options: { Size: '1g' }, price: 30, stock: 5 },
         { options: { Size: '2g' }, price: 50, stock: 8 },
@@ -314,7 +314,7 @@ export const shopConfig = {
       imageAlt: 'pink image',
       categories: ['Unprocessed'],
       tags: ['powder', 'party', 'stimulant', 'unprocessed'],
-      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28'] }],
+      options: [{ name: 'Size', values: ['1g', '2g', '3.5g', '7g', '14g', '28g'] }],
       variants: [
         { options: { Size: '1g' }, price: 60, stock: 6 },
         { options: { Size: '2g' }, price: 110, stock: 8 },
@@ -368,7 +368,7 @@ options: [{ name: 'Size', values: ['1', '2', '5', '10', '50', '100'] }],
       imageAlt: 'hash image',
       categories: ['Plants','party'],
       tags: ['Plants', 'cannabis', 'natural'],
-     options: [{ name: 'Size', values: ['1g', '2g', '3g', '6g', '12', '25g'] }],
+     options: [{ name: 'Size', values: ['1g', '2g', '3g', '6g', '12g', '25g'] }],
       variants: [
         { options: { Size: '1g' }, price: 10, stock: 6 },
         { options: { Size: '2g' }, price: 20, stock: 8 },
