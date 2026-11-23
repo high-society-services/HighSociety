@@ -387,7 +387,7 @@ options: [{ name: 'Size', values: ['1', '2', '5', '10', '50', '100'] }],
       imageAlt: 'drreddy image',
       categories: ['Pills', 'Medicine'],
       tags: ['anti-anxiety', 'gaba', 'medicine', 'pills'],
-     options: [{ name: 'Size', values: ['14pills', '56pills', '3g', '6g', '12', '25g'] }],
+     options: [{ name: 'Size', values: ['14pills', '56pills'] }],
       variants: [
         { options: { Size: '14pills' }, price: 20, stock: 8 },
         { options: { Size: '56pills' }, price: 60, stock: 10 },
